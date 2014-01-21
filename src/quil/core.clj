@@ -1714,18 +1714,18 @@
   (.getHeight (current-applet)))
 
 (def ^{:private true}
-  hint-options {;;:enable-opengl-4x-smooth PConstants/ENABLE_OPENGL_4X_SMOOTH
-                ;;:enable-opengl-2x-smooth PConstants/ENABLE_OPENGL_2X_SMOOTH
+  hint-options {:enable-opengl-4x-smooth PConstants/ENABLE_OPENGL_4X_SMOOTH
+                :enable-opengl-2x-smooth PConstants/ENABLE_OPENGL_2X_SMOOTH
                 :enable-native-fonts PConstants/ENABLE_NATIVE_FONTS
                 :disable-native-fonts PConstants/DISABLE_NATIVE_FONTS
                 :enable-depth-test PConstants/ENABLE_DEPTH_TEST
                 :disable-depth-test PConstants/DISABLE_DEPTH_TEST
                 :enable-depth-sort PConstants/ENABLE_DEPTH_SORT
                 :disable-depth-sort PConstants/DISABLE_DEPTH_SORT
-                ;;:disable-opengl-error-report PConstants/DISABLE_OPENGL_ERROR_REPORT
-                ;;:enable-opengl-error-report PConstants/ENABLE_OPENGL_ERROR_REPORT
-                ;;:enable-accurate-textures PConstants/ENABLE_ACCURATE_TEXTURES
-                ;;:disable-accurate-textures PConstants/DISABLE_ACCURATE_TEXTURES
+                :disable-opengl-error-report PConstants/DISABLE_OPENGL_ERROR_REPORT
+                :enable-opengl-error-report PConstants/ENABLE_OPENGL_ERROR_REPORT
+                :enable-accurate-textures PConstants/ENABLE_ACCURATE_TEXTURES
+                :disable-accurate-textures PConstants/DISABLE_ACCURATE_TEXTURES
                 :disable-depth-mask PConstants/DISABLE_DEPTH_MASK
                 :enable-depth-mask PConstants/ENABLE_DEPTH_MASK})
 
@@ -3176,7 +3176,7 @@
 
 (defn
   ^{:requires-bindings false
-    :processing-name "displayWidth"
+    :processing-name "screen.width"
     :category "Environment"
     :subcategory nil
     :added "1.0"}
@@ -3894,7 +3894,7 @@
 
 (def ^{:private true}
   texture-modes {:image PApplet/IMAGE
-                 :normal PApplet/NORMAL})
+                 :normalized PApplet/NORMALIZED})
 
 (defn
     ^{:requires-bindings true
@@ -3903,14 +3903,15 @@
     :subcategory "Vertex"
     :added "1.0"}
   texture-mode
-  "Sets the coordinate space for texture mapping. The default mode is IMAGE,
-  which refers to the actual coordinates of the image. NORMAL refers to a
-  normalized space of values ranging from 0 to 1. This function only works
-  with the P2D and P3D renderers.
-  With IMAGE, if an image is 100 x 200 pixels, mapping the image onto the
-  entire size of a quad would require the points
-  (0,0) (100, 0) (100,200) (0,200).
-  The same mapping in NORMAL is (0,0) (1,0) (1,1) (0,1). "
+  "Sets the coordinate space for texture mapping. There are two
+  options, :image and :normalized.
+
+  :image refers to the actual coordinates of the image and :normalized
+  refers to a normalized space of values ranging from 0 to 1. The
+  default mode is :image. In :image, if an image is 100 x 200 pixels,
+  mapping the image onto the entire size of a quad would require the
+  points (0,0) (0,100) (100,200) (0,200). The same mapping in
+  NORMAL_SPACE is (0,0) (0,1) (1,1) (0,1)."
   [mode]
   (let [mode (resolve-constant-key mode texture-modes)]
     (.textureMode (current-surface) (int mode))))
